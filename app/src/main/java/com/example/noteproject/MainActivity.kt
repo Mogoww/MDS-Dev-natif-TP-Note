@@ -3,12 +3,13 @@ package com.example.noteproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import com.example.noteproject.Class.Note
 
 // set liste example Notes
 val notes = listOf(
-    Notes("title1", "description1"),
-    Notes("title2", "description2"),
-    Notes("title3", "description3")
+    Note("title1", "description1"),
+    Note("title2", "description2"),
+    Note("title3", "description3")
 )
 
 class MainActivity : AppCompatActivity() {
@@ -26,8 +27,3 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class Notes(val title: String, val description: String) {
-    override fun toString(): String {
-        return "Notes(title='$title', description='$description')"
-    }
-}
