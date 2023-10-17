@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.noteproject.Class.Note
 import com.example.noteproject.adapter.NoteAdapter
 
 

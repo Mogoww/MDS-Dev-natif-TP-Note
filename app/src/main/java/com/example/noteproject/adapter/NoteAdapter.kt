@@ -1,12 +1,13 @@
 package com.example.noteproject.adapter
 
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.noteproject.Class.Note
 import com.example.noteproject.R
+import com.example.noteproject.entities.Note
 
 class NoteAdapter(private var notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private var originalNotes: List<Note> = notes // Stockez la liste originale

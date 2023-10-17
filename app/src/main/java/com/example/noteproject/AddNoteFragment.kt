@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
-import com.example.noteproject.Class.Note
 import com.example.noteproject.R
+import com.example.noteproject.database.NoteDatabase
+import com.example.noteproject.entities.Note
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class AddNoteFragment : Fragment() {
 
@@ -30,8 +33,20 @@ class AddNoteFragment : Fragment() {
             val title = editTextTitle.text.toString()
             val description = editTextDescription.text.toString()
 
+            if (title.isEmpty()) {
+                editTextTitle.error = "Title required"
+                return@setOnClickListener
+            }
+
             // log the values
             Log.d("AddNoteFragment", "title: $title, description: $description")
+
+            // add the note to the database
+
+            GlobalScope.launch {
+                val noteDao = NoteDatabase.getDatabase(requireContext())?.noteDao()
+                noteDao?.insertNotes(Note(title, description))
+            }
 
 
 
@@ -41,3 +56,5 @@ class AddNoteFragment : Fragment() {
         return view
     }
 }
+
+

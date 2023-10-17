@@ -1,4 +1,5 @@
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +8,14 @@ import android.widget.Button
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.noteproject.Class.Note
 import com.example.noteproject.R
 import com.example.noteproject.adapter.NoteAdapter
+import com.example.noteproject.database.NoteDatabase
+import com.example.noteproject.entities.Note
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeNoteFragment : Fragment() {
 
@@ -24,18 +30,7 @@ class HomeNoteFragment : Fragment() {
         // Récupérer la RecyclerView depuis la mise en page du fragment
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
 
-        // Initialiser la liste de notes
-        val notes = listOf(
-            Note("title1", "description1"),
-            Note("title2", "description2"),
-            Note("title3", "description3")
-        )
-
-        // Initialiser l'adaptateur
-        adapter = NoteAdapter(notes)
-
         // Configurer le RecyclerView
-        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Récupérer le SearchView depuis la mise en page du fragment
@@ -53,13 +48,26 @@ class HomeNoteFragment : Fragment() {
             }
         })
 
-
         // Récupérez le bouton "Ajouter une note" depuis la mise en page
         val addNoteButton: Button = view.findViewById(R.id.add_note_button)
 
         // Ajoutez un OnClickListener pour ouvrir le AddNoteFragment
         addNoteButton.setOnClickListener {
             openAddNoteFragment()
+        }
+
+        // Utilisez une coroutine pour charger les données depuis la base de données
+        GlobalScope.launch {
+            val noteDao = NoteDatabase.getDatabase(requireContext())?.noteDao()
+            val notes_data_base = noteDao?.getAllNotes()
+            Log.d("HomeNoteFragment", "notes_data_base: $notes_data_base")
+            if (notes_data_base != null) {
+                // Mettez à jour l'adaptateur sur le thread principal
+                withContext(Dispatchers.Main) {
+                    adapter = NoteAdapter(notes_data_base.toMutableList())
+                    recyclerView.adapter = adapter
+                }
+            }
         }
 
         return view
