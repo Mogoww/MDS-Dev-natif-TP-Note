@@ -2,6 +2,7 @@ package com.example.noteproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +33,22 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
         recyclerView.adapter = adapter
+
+        val searchView: SearchView = findViewById(R.id.search_view)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Gérer la soumission de la recherche ici
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Gérer les modifications de texte de recherche ici
+                // Vous pouvez filtrer les éléments de la liste en fonction de newText
+                adapter.filter(newText)
+                return true
+            }
+        })
 
     }
 }

@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.noteproject.Class.Note
 import com.example.noteproject.R
 
-class NoteAdapter(private val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private var notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+    private var originalNotes: List<Note> = notes // Stockez la liste originale
+
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.note_title)
         val contentTextView: TextView = itemView.findViewById(R.id.note_content)
@@ -27,5 +29,18 @@ class NoteAdapter(private val notes: List<Note>) : RecyclerView.Adapter<NoteAdap
 
     override fun getItemCount(): Int {
         return notes.size
+    }
+
+    fun filter(query: String?) {
+        if (query.isNullOrBlank()) {
+            // Si le texte de recherche est vide, affichez toutes les notes
+            notes = originalNotes
+        } else {
+            // Sinon, filtrez les notes en fonction du texte de recherche
+            notes = originalNotes.filter {
+                it.title.contains(query, ignoreCase = true) || it.description.contains(query, ignoreCase = true)
+            }
+        }
+        notifyDataSetChanged()
     }
 }
