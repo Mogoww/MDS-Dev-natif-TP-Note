@@ -26,7 +26,7 @@ class DetailNoteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_add_note, container, false)
+        val view = inflater.inflate(R.layout.fragment_detail_note, container, false)
 
         editTextTitle = view.findViewById(R.id.editTextTitle)
         editTextDescription = view.findViewById(R.id.editTextDescription)
@@ -48,6 +48,8 @@ class DetailNoteFragment : Fragment() {
                         // Remplissez les champs d'édition avec les données de la note existante
                         editTextTitle.setText(note.title)
                         editTextDescription.setText(note.description)
+                        // Change the text of the button to "Mettre à jour"
+                        buttonAddNote.text = "Mettre à jour"
                     }
                 }
             }
@@ -82,4 +84,3 @@ class DetailNoteFragment : Fragment() {
         return view
     }
 }
-

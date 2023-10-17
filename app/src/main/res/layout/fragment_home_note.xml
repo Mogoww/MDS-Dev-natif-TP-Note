@@ -34,24 +34,27 @@
             />
 
     <android.widget.SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:iconifiedByDefault="false"
-            app:layout_constraintTop_toBottomOf="@id/title_activity_main"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:theme="@style/SearchViewStyle"
-            app:actionViewClass="androidx.appcompat.widget.SearchView"
-            android:id="@+id/search_view"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:queryHint="Rechercher une note"
+                android:theme="@style/SearchViewStyle"
+                android:iconifiedByDefault="false"
+                app:layout_constraintTop_toBottomOf="@id/title_activity_main"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/search_view"/>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:layout_constraintTop_toBottomOf="@id/search_view"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintTop_toBottomOf="@id/search_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/recyclerView"
             />
 
     <Button

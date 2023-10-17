@@ -74,6 +74,12 @@ class HomeNoteFragment : Fragment() {
             }
         }
 
+        // Add a long-press handler for deleting a note
+        recyclerView.setOnLongClickListener {
+            adapter.showDeleteDialog(requireContext())
+            true
+        }
+
         // Ajoutez un gestionnaire de clic à l'adaptateur
         adapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener {
             override fun onItemClick(note: Note) {
