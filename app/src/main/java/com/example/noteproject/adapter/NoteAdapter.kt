@@ -12,6 +12,15 @@ import com.example.noteproject.entities.Note
 class NoteAdapter(private var notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private var originalNotes: List<Note> = notes // Stockez la liste originale
 
+    interface OnItemClickListener {
+        fun onItemClick(note: Note)
+    }
+    private var itemClickListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+    }
+
     // Créez une classe interne pour contenir les éléments de la vue
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.note_title)
@@ -29,6 +38,10 @@ class NoteAdapter(private var notes: List<Note>) : RecyclerView.Adapter<NoteAdap
         val currentNote = notes[position]
         holder.titleTextView.text = currentNote.title
         holder.contentTextView.text = currentNote.description
+
+        holder.itemView.setOnClickListener {
+            itemClickListener?.onItemClick(currentNote)
+        }
     }
 
     // Retourne le nombre d'éléments dans la liste

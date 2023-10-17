@@ -7,14 +7,16 @@
         android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Titre" />
+        android:hint="Titre" 
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextTitle"
-        android:hint="Description" />
+        android:hint="Description" 
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/buttonAddNote"

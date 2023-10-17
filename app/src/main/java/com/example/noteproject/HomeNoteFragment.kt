@@ -17,8 +17,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeNoteFragment : Fragment() {
 
+
+class HomeNoteFragment : Fragment() {
     private lateinit var adapter: NoteAdapter
 
     override fun onCreateView(
@@ -32,6 +33,10 @@ class HomeNoteFragment : Fragment() {
 
         // Configurer le RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Initialize the adapter with an empty list
+        adapter = NoteAdapter(emptyList())
+        recyclerView.adapter = adapter
 
         // Récupérer le SearchView depuis la mise en page du fragment
         val searchView: SearchView = view.findViewById(R.id.search_view)
@@ -51,9 +56,9 @@ class HomeNoteFragment : Fragment() {
         // Récupérez le bouton "Ajouter une note" depuis la mise en page
         val addNoteButton: Button = view.findViewById(R.id.add_note_button)
 
-        // Ajoutez un OnClickListener pour ouvrir le AddNoteFragment
+        // Ajoutez un OnClickListener pour ouvrir le detailNoteFragment
         addNoteButton.setOnClickListener {
-            openAddNoteFragment()
+            opendetailNoteFragment(null) // Pass null for noteId to create a new note
         }
 
         // Utilisez une coroutine pour charger les données depuis la base de données
@@ -64,22 +69,32 @@ class HomeNoteFragment : Fragment() {
             if (notes_data_base != null) {
                 // Mettez à jour l'adaptateur sur le thread principal
                 withContext(Dispatchers.Main) {
-                    adapter = NoteAdapter(notes_data_base.toMutableList())
-                    recyclerView.adapter = adapter
+                    adapter.updateNotes(notes_data_base)
                 }
             }
         }
 
+        // Ajoutez un gestionnaire de clic à l'adaptateur
+        adapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener {
+            override fun onItemClick(note: Note) {
+                // Redirect to detailNoteFragment with the note's ID to update it
+                opendetailNoteFragment(note.id!!.toLong())
+            }
+        })
+
         return view
     }
 
-    private fun openAddNoteFragment() {
-        // Créez une instance du AddNoteFragment
-        val addNoteFragment = AddNoteFragment()
+    private fun opendetailNoteFragment(noteId: Long?) {
+        val detailNoteFragment = DetailNoteFragment()
+        val args = Bundle()
+        if (noteId != null) {
+            args.putLong("note_id", noteId)
+        }
+        detailNoteFragment.arguments = args
 
-        // Remplacez le fragment actuel par le AddNoteFragment
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, addNoteFragment)
+            .replace(R.id.fragmentContainer, detailNoteFragment)
             .addToBackStack(null)
             .commit()
     }

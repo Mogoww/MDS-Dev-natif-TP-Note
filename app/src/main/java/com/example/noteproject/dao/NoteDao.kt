@@ -11,4 +11,13 @@ interface NoteDao {
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         fun insertNotes(note: Note)
+
+        @Update
+        fun updateNote(note: Note)
+
+        @Delete
+        fun deleteNotes(note: Note)
+
+        @Query("SELECT * FROM notes WHERE id = :id")
+        fun getNoteById(id: Int): Note
 }
