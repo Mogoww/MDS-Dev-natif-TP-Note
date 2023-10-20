@@ -12,6 +12,7 @@ import com.example.noteproject.R
 import com.example.noteproject.adapter.NoteAdapter
 import com.example.noteproject.database.NoteDatabase
 import com.example.noteproject.entities.Note
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -54,7 +55,7 @@ class HomeNoteFragment : Fragment() {
         })
 
         // Récupérez le bouton "Ajouter une note" depuis la mise en page
-        val addNoteButton: Button = view.findViewById(R.id.add_note_button)
+        val addNoteButton: FloatingActionButton = view.findViewById(R.id.add_note_button)
 
         // Ajoutez un OnClickListener pour ouvrir le detailNoteFragment
         addNoteButton.setOnClickListener {
